@@ -1,2 +1,2 @@
 # sify_project
-A e-commerce project for demonstration.
+An e-commerce project for demonstration.
