@@ -92,6 +92,7 @@
  //view User's Profile
  module.exports.viewUserProfile = (cb, uname) => {
    mongoose.connect(DB, options, (err, client) => {
+     var resjson = {}
      //  console.log('Client', client)
      if (!err) {
        console.log("Success!")
@@ -99,7 +100,7 @@
          "username": uname
        }, (err, data) => {
          if (err) {
-           var resjson = {
+           resjson = {
              "msg": "User not available"
            }
          } else {
@@ -109,27 +110,28 @@
                "msg": "success",
                doc
              }
+             Profile.find({
+               userid: doc._id
+             }, (perr, pdata) => {
+               if (perr) {
+                 console.log('This executes')
+                 resjson = {
+                   ...resjson,
+                   "pdata": "No user profile available"
+                 }
+                 console.log('new resjson: ', resjson)
+               } else {
+                 pdata.forEach(d => {
+                   console.log('User Profile: ', d);
+                   resjson.pdata = d
+                 })
+               }
+               cb(resjson)
+             })
            })
          }
          mongoose.connection.close();
-         cb(resjson)
-
        })
-       //  User.find((err, doc) => {
-       //    if (err) {
-       //      var resjson = {
-       //        "error": err.errors || 'Users not available'
-       //      }
-       //    } else {
-       //      console.log('doc: ', doc)
-       //      resjson = {
-       //        ...doc
-       //      }
-       //    }
-       //    mongoose.connection.close()
-       //    cb(resjson)
-       //  })
-
      } else console.log("ERROR!:", err.message)
    })
  }
