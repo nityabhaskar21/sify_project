@@ -28,6 +28,23 @@ router.post('/signup', cors({
   }, userjson)
 });
 
+//login users
+router.options('/login', cors())
+router.post('/login', cors({
+  origin: "http://localhost:4200"
+}), function (req, res, next) {
+  let username = req.body.username;
+  let password = req.body.password;
+
+  let userjson = {
+    username,
+    password
+  }
+  mongodao.loginUser(function (result) {
+    res.send(result)
+  }, userjson)
+});
+
 //get all users
 router.get('/users', cors({
   origin: "http://localhost:4200"
@@ -38,4 +55,13 @@ router.get('/users', cors({
   })
 });
 
+//get user prifile
+router.get('/:uname/profile', cors({
+  origin: "http://localhost:4200"
+}), function (req, res, next) {
+  let username = req.params.uname;
+  mongodao.viewUserProfile(function (result) {
+    res.send(result)
+  }, username)
+});
 module.exports = router;

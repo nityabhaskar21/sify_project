@@ -2,6 +2,7 @@
  let mongoClient = require('mongodb').MongoClient;
  let Test = require('./models/testModel');
  let User = require('./models/userModel')
+ let Profile = require('./models/profileModel')
 
  const DB = "mongodb+srv://user3003:passsify3003@cluster0.tfqsz.mongodb.net/test?retryWrites=true&w=majority"
  const options = {
@@ -37,6 +38,32 @@
    })
  }
 
+ //login user
+ module.exports.loginUser = (cb, userjson) => {
+   mongoose.connect(DB, options, (err, client) => {
+     //  console.log('Client', client)
+     if (!err) {
+       console.log("Success!")
+       User.findOne(userjson, (err, doc) => {
+         if (err) {
+           var resjson = {
+             "error": err.errors || 'Wrong credentials!'
+           }
+         } else {
+           console.log(doc)
+           resjson = {
+             "msg": "User logged!"
+           }
+         }
+         console.log('doc', doc)
+         mongoose.connection.close()
+         cb(resjson)
+       })
+
+     } else console.log("ERROR!:", err.message)
+   })
+ }
+
  //view all users from UserModel
  module.exports.viewAllUsers = (cb) => {
    mongoose.connect(DB, options, (err, client) => {
@@ -61,6 +88,39 @@
      } else console.log("ERROR!:", err.message)
    })
  }
+
+ //view User's Profile
+ module.exports.viewUserProfile = (cb, uname) => {
+   mongoose.connect(DB, options, (err, client) => {
+     //  console.log('Client', client)
+     if (!err) {
+       console.log("Success!")
+       User.find({
+         "username": uname
+       }, (err, data) => {
+         doc.forEach(doc => console.log(doc))
+       })
+       //  User.find((err, doc) => {
+       //    if (err) {
+       //      var resjson = {
+       //        "error": err.errors || 'Users not available'
+       //      }
+       //    } else {
+       //      console.log('doc: ', doc)
+       //      resjson = {
+       //        ...doc
+       //      }
+       //    }
+       //    mongoose.connection.close()
+       //    cb(resjson)
+       //  })
+
+     } else console.log("ERROR!:", err.message)
+   })
+ }
+
+
+
  //  mongoose.connect(DB, {
  //    useNewUrlParser: true,
  //    useCreateIndex: true,
