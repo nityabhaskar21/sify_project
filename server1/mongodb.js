@@ -98,7 +98,22 @@
        User.find({
          "username": uname
        }, (err, data) => {
-         doc.forEach(doc => console.log(doc))
+         if (err) {
+           var resjson = {
+             "msg": "User not available"
+           }
+         } else {
+           data.forEach(doc => {
+             console.log('Info of user', doc)
+             resjson = {
+               "msg": "success",
+               doc
+             }
+           })
+         }
+         mongoose.connection.close();
+         cb(resjson)
+
        })
        //  User.find((err, doc) => {
        //    if (err) {
