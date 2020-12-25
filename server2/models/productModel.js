@@ -8,7 +8,8 @@ const ProductSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    required: [true, 'Product must belong to a category!']
+    required: [true, 'Product must belong to a category!'],
+    lowercase: true
   },
   merchantid: {
     type: mongoose.Schema.Types.ObjectId,

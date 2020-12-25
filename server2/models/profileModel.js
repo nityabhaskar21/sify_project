@@ -13,10 +13,12 @@ const ProfileSchema = new mongoose.Schema({
     default: 'self'
   },
   address: {
-    type: String
+    type: String,
+    default: 'address unknown!'
   },
   city: {
-    type: String
+    type: String,
+    default: 'city unknown!'
   },
   pin: {
     type: Number
