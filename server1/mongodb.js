@@ -10,6 +10,8 @@
    useFindAndModify: false,
    useUnifiedTopology: true
  }
+
+ //add user to User Model
  module.exports.addUser = (cb, userjson) => {
    mongoose.connect(DB, options, (err, client) => {
      //  console.log('Client', client)
@@ -27,6 +29,31 @@
            }
          }
          console.log('doc', doc)
+         mongoose.connection.close()
+         cb(resjson)
+       })
+
+     } else console.log("ERROR!:", err.message)
+   })
+ }
+
+ //view all users from UserModel
+ module.exports.viewAllUsers = (cb) => {
+   mongoose.connect(DB, options, (err, client) => {
+     //  console.log('Client', client)
+     if (!err) {
+       console.log("Success!")
+       User.find((err, doc) => {
+         if (err) {
+           var resjson = {
+             "error": err.errors || 'Users not available'
+           }
+         } else {
+           console.log('doc: ', doc)
+           resjson = {
+             ...doc
+           }
+         }
          mongoose.connection.close()
          cb(resjson)
        })

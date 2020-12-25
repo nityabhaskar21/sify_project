@@ -26,7 +26,16 @@ router.post('/signup', cors({
   mongodao.addUser(function (result) {
     res.send(result)
   }, userjson)
+});
 
+//get all users
+router.get('/users', cors({
+  origin: "http://localhost:4200"
+}), function (req, res, next) {
+
+  mongodao.viewAllUsers(function (result) {
+    res.send(result)
+  })
 });
 
 module.exports = router;
