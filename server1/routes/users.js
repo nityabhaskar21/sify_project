@@ -64,4 +64,35 @@ router.get('/:uname/profile', cors({
     res.send(result)
   }, username)
 });
+
+//add user profile
+router.options('/:username/addprofile', cors())
+router.post('/:username/addprofile', cors({
+  origin: "http://localhost:4200"
+}), function (req, res, next) {
+  let username = req.params.username;
+  let phone = req.body.phone;
+  let company = req.body.company || 'self';
+  let address = req.body.address;
+  let city = req.body.city;
+  let pin = req.body.pin;
+  let country = req.body.country || 'india';
+  let about = req.body.about;
+  let prs = req.body.prs;
+
+  let profilejson = {
+    username,
+    phone,
+    company,
+    address,
+    city,
+    pin,
+    country,
+    about,
+    prs
+  }
+  mongodao.addUserProfile(function (result) {
+    res.send(result)
+  }, profilejson)
+});
 module.exports = router;

@@ -136,6 +136,63 @@
    })
  }
 
+ //Add User profile
+ module.exports.addUserProfile = (cb, profilejson) => {
+   mongoose.connect(DB, options, (err, client) => {
+     var resjson = {}
+     //  console.log('Client', client)
+     if (!err) {
+       console.log("Success!")
+       User.find({
+         "username": profilejson.username
+       }, (err, data) => {
+         if (err) {
+           resjson = {
+             "msg": "User not available"
+           }
+         } else {
+           data.forEach(doc => {
+             console.log('Info of user', doc)
+             resjson = {
+               "msg": "success",
+               doc
+             }
+             console.log(typeof doc._id)
+             console.log(profilejson)
+             //  phone: profilejson.phone,
+             //  company: profilejson.company,
+             //  address: profilejson.address,
+             //  city: profilejson.city,
+             //  pin: profilejson.pin,
+             //  country: profilejson.country,
+             //  about: profilejson.about,
+             //  ps: profilejson.prs
+             delete profilejson.username;
+             Profile.create({
+               userid: mongoose.Types.ObjectId(doc._id),
+               ...profilejson
+             }, (perr, pdata) => {
+               if (perr) {
+                 console.log('Error in creating profile', perr)
+                 //console.log(perr)
+                 resjson = {
+                   "msg": "Profile failed to create "
+                 }
+               } else {
+                 resjson = {
+                   "msg": "Profile created sucessfully",
+                   pdata
+                 }
+               }
+               cb(resjson)
+             })
+           })
+         }
+         //  mongoose.connection.close();
+       })
+     } else console.log("ERROR!:", err.message)
+   })
+ }
 
 
  //  mongoose.connect(DB, {

@@ -3,7 +3,14 @@ const ProfileSchema = new mongoose.Schema({
   userid: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: [true, 'UserID must be assigned!']
+    required: [true, 'UserID must be assigned!'],
+    unique: true
+  },
+  username: {
+    type: String,
+    required: true,
+    unique: [true, 'Username must be unique!'],
+    trim: true
   },
   phone: {
     type: Number
