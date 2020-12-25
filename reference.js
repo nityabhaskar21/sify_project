@@ -3,6 +3,21 @@
 
 
 //////////////////////////////////////////////////////////////
+//Connecting to already existing DB
+mongoose.connect(DB, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true
+}, (err, client) => {
+  if (!err) {
+    console.log("Success!")
+    mongoose.connection.db.collection('testCollection', (err, collection) => {
+      collection.find().toArray((err, result) => console.log(result))
+    })
+  }
+})
+
 // Mongoose CRUD operations:
 
 //Write or create data
