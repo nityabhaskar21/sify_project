@@ -1,8 +1,39 @@
  let mongoose = require('mongoose');
  let mongoClient = require('mongodb').MongoClient;
  let Test = require('./models/testModel');
+ let User = require('./models/userModel')
 
  const DB = "mongodb+srv://user3003:passsify3003@cluster0.tfqsz.mongodb.net/test?retryWrites=true&w=majority"
+ const options = {
+   useNewUrlParser: true,
+   useCreateIndex: true,
+   useFindAndModify: false,
+   useUnifiedTopology: true
+ }
+ module.exports.addUser = (cb, userjson) => {
+   mongoose.connect(DB, options, (err, client) => {
+     //  console.log('Client', client)
+     if (!err) {
+       console.log("Success!")
+       User.create(userjson, (err, doc) => {
+         if (err) {
+           var resjson = {
+             "error": err.errors || 'User already exists'
+           }
+         } else {
+           console.log(doc)
+           resjson = {
+             "msg": "User added!"
+           }
+         }
+         console.log('doc', doc)
+         mongoose.connection.close()
+         cb(resjson)
+       })
+
+     } else console.log("ERROR!:", err.message)
+   })
+ }
  //  mongoose.connect(DB, {
  //    useNewUrlParser: true,
  //    useCreateIndex: true,
@@ -50,25 +81,25 @@
  //      })
  //    } else console.log("ERROR!:", err.message)
  //  })
- mongoose.connect(DB, {
-   useNewUrlParser: true,
-   useCreateIndex: true,
-   useFindAndModify: false,
-   useUnifiedTopology: true
- }, (err, client) => {
-   if (!err) {
-     console.log("Success!")
-     Test.find((err, data) => data.forEach((doc) => console.log(doc)))
-     Test.aggregate([{
-       $group: {
-         "_id": 0,
-         "no of collections ": {
-           $sum: 1
-         }
-       }
-     }], (err, result) => result.forEach(doc => console.log(doc)))
-   } else console.log("ERROR!:", err.message)
- })
+ //  mongoose.connect(DB, {
+ //    useNewUrlParser: true,
+ //    useCreateIndex: true,
+ //    useFindAndModify: false,
+ //    useUnifiedTopology: true
+ //  }, (err, client) => {
+ //    if (!err) {
+ //      console.log("Success!")
+ //      Test.find((err, data) => data.forEach((doc) => console.log(doc)))
+ //      Test.aggregate([{
+ //        $group: {
+ //          "_id": 0,
+ //          "no of collections ": {
+ //            $sum: 1
+ //          }
+ //        }
+ //      }], (err, result) => result.forEach(doc => console.log(doc)))
+ //    } else console.log("ERROR!:", err.message)
+ //  })
 
  // mongoClient.connect(DB, {
  //     useUnifiedTopology: true
