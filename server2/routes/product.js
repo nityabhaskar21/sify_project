@@ -8,14 +8,14 @@ var cors = require('cors')
 //});
 
 
-// //get product
-// router.get('/product', cors({
-//   origin: "http://localhost:4200"
-// }), function (req, res, next) {
+//get product
+router.get('/viewall', cors({
+  origin: "http://localhost:4200"
+}), function (req, res, next) {
 
-//   mongodao.viewAllProduct(function (result) {
-//     res.send(result)
-//   })
-// });
+  mongodao.viewAllProduct(function (result) {
+    res.send(result)
+  })
+});
 
 module.exports = router;
