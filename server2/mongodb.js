@@ -10,3 +10,28 @@ const options = {
   useFindAndModify: false,
   useUnifiedTopology: true
 }
+
+//viewall product from product model
+module.exports.viewAllProduct = (cb) => {
+  mongoose.connect(DB, options, (err, client) => {
+    //  console.log('Client', client)
+    if (!err) {
+      console.log("Success!")
+      Product.find((err, doc) => {
+        if (err) {
+          var resjson = {
+            "error": err.errors || 'product not available'
+          }
+        } else {
+          console.log('doc: ', doc)
+          resjson = {
+            ...doc
+          }
+        }
+        mongoose.connection.close()
+        cb(resjson)
+      })
+
+    } else console.log("ERROR!:", err.message)
+  })
+}

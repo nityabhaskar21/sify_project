@@ -24,6 +24,7 @@ app.use(express.urlencoded({
 
 // app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/product', usersRouter);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
@@ -40,13 +41,13 @@ app.use('/users', usersRouter);
 //   res.status(err.status || 500);
 //   res.render('error');
 // });
-app.use('/employees', usersRouter);
+//app.use('/employees', usersRouter);
 
 app.use(cors({
   origin: "http://localhost:4200"
 }))
 
-app.listen(8080, function () {
+app.listen(7070, function () {
   console.log("Server Started! at 7070")
 })
 module.exports = app;
