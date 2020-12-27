@@ -49,10 +49,14 @@ module.exports.loginUser = (cb, userjson) => {
           var resjson = {
             error: err.errors || 'Wrong credentials!'
           };
-        } else {
+        } else if (doc) {
           console.log(doc);
           resjson = {
             msg: 'User logged!'
+          };
+        } else {
+          var resjson = {
+            error: 'Wrong credentials. Please provide correct username and password.'
           };
         }
         console.log('doc', doc);
@@ -115,7 +119,7 @@ module.exports.viewUserProfile = (cb, uname) => {
                 },
                 (perr, pdata) => {
                   if (perr) {
-                    console.log('This executes');
+                    console.log('error occured', perr);
                     resjson = {
                       ...resjson,
                       pdata: 'No user profile available'
@@ -132,7 +136,6 @@ module.exports.viewUserProfile = (cb, uname) => {
               );
             });
           }
-          mongoose.connection.close();
         }
       );
     } else console.log('ERROR!:', err.message);
