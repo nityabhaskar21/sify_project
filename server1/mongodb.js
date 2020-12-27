@@ -77,7 +77,7 @@ module.exports.viewAllUsers = cb => {
         } else {
           console.log('doc: ', doc);
           resjson = {
-            ...doc
+            doc
           };
         }
         mongoose.connection.close();
