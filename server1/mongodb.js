@@ -77,6 +77,7 @@ module.exports.viewAllUsers = cb => {
         } else {
           console.log('doc: ', doc);
           resjson = {
+            msg: "View users successful",
             doc
           };
         }
