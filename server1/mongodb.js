@@ -160,7 +160,6 @@ module.exports.addUserProfile = (cb, profilejson) => {
                 msg: 'success'
               };
               console.log(doc._id);
-              console.log(profilejson);
               //  phone: profilejson.phone,
               //  company: profilejson.company,
               //  address: profilejson.address,
@@ -169,7 +168,8 @@ module.exports.addUserProfile = (cb, profilejson) => {
               //  country: profilejson.country,
               //  about: profilejson.about,
               //  ps: profilejson.prs
-              delete profilejson.username;
+              profilejson.username;
+              console.log(profilejson);
               Profile.findOneAndUpdate({
                   userid: doc._id
                 },
