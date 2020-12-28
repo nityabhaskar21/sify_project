@@ -15,7 +15,7 @@ const options = {
 //viewall product from product model
 module.exports.viewAllProduct = (cb) => {
   mongoose.connect(DB, options, (err, client) => {
-    //  console.log('Client', client)
+   
     if (!err) {
       console.log("Success!")
       Product.find((err, doc) => {
@@ -33,6 +33,104 @@ module.exports.viewAllProduct = (cb) => {
         cb(resjson)
       })
 
+    } else console.log("ERROR!:", err.message)
+  })
+}
+
+
+module.exports.viewByUsername = (cb, uname) => {
+  mongoose.connect(DB, options, (err, client) => {
+    var resjson = {}
+    
+    if (!err) {
+      console.log("Success!")
+      User.find({
+        "username": uname
+      }, (err, data) => {
+        if (err) {
+          resjson = {
+            "msg": "User not available"
+          }
+        } else {
+          data.forEach(doc => {
+            console.log('Info of user', doc)
+            resjson = {
+              "msg": "success",
+              doc
+            }
+            Product.find({
+              merchaneid: doc._id
+            }, (qerr, qdata) => {
+              if (qerr) {
+                console.log('This executes')
+                resjson = {
+                  ...resjson,
+                  "qdata": "No user product available"
+                }
+                console.log('new resjson: ', resjson)
+              } else {
+                qdata.forEach(d => {
+                  console.log('User Product: ', d);
+                  resjson.qdata = d
+                })
+              }
+              cb(resjson)
+            })
+          })
+        }
+        mongoose.connection.close();
+      })
+    } else console.log("ERROR!:", err.message)
+  })
+}
+
+
+module.exports.addProduct = (cb, productjson) => {
+  mongoose.connect(DB, options, (err, client) => {
+    var resjson = {}
+    //  console.log('Client', client)
+    if (!err) {
+      console.log("Success!")
+      User.find({
+        "username": productjson.username
+      }, (err, data) => {
+        if (err) {
+          resjson = {
+            "msg": "User not available"
+          }
+        } else {
+          data.forEach(doc => {
+            console.log('Info of user', doc)
+            resjson = {
+              "msg": "success",
+              doc
+            }
+            console.log(typeof doc._id)
+            console.log(productjson)
+            
+            delete productjson.username;
+            Product.create({
+              merchaneid: mongoose.Types.ObjectId(doc._id),
+              ...productjson
+            }, (qerr, qdata) => {
+              if (qerr) {
+                console.log('Error in creating product', qerr)
+                //console.log(perr)
+                resjson = {
+                  "msg": "Product failed to create "
+                }
+              } else {
+                resjson = {
+                  "msg": "Product created sucessfully",
+                  qdata
+                }
+              }
+              cb(resjson)
+            })
+          })
+        }
+        //  mongoose.connection.close();
+      })
     } else console.log("ERROR!:", err.message)
   })
 }
