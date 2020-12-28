@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+hello everyone
+i m nitya
+
+hai this is harika...
+=======
+Nityanand Bhaskar connected!
+>>>>>>> 546e5ec1ce81dea4dbe1a74e81df82d59d07831d
+=======
 Nityanand Bhaskar connected!
 
 helllooo
+>>>>>>> 0323eee0e586c26f09243542d6899f4788bb6c35
