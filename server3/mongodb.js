@@ -116,7 +116,6 @@ module.exports.addProductid = (cb, productjson) => {
             console.log(typeof doc._id)
             console.log(productjson)
             
-            delete productjson.productid;
             Product.create({
               merchaneid: mongoose.Types.ObjectId(doc._id),
               ...productjson

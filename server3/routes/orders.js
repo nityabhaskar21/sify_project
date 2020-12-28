@@ -31,15 +31,15 @@ router.get('/viewordersbyusername', cors({
 //add orders for productid
 router.options('/addproductid', cors())
 router.post('/addproductid', cors({
-  origin: "http://localhost:4200"
+  origin: "http://localhost:4200" 
 }), function (req, res, next) {
-  let productid = req.params.productid;
-  let merchantid = req.params.merchantid;
-  let buyerid = req.params.buyerid;
-  let review = req.params.review;
-  let orderstatus = req.params.orderstatus;
-  let iscancelled = req.params.iscancelled;
-  let rating = req.params.rating;
+  let productid = req.body.productid;
+  let merchantid = req.body.merchantid;
+  let buyerid = req.body.buyerid;
+  let review = req.body.review;
+  let orderstatus = req.body.orderstatus;
+  let iscancelled = req.body.iscancelled;
+  let rating = req.body.rating;
   
   let productjson = {
     productid,
