@@ -24,17 +24,18 @@ module.exports.viewOrderbyrating = (cb) => {
         ratings: ratings
       }, (err, data) => {
         if (err) {
-           resjson = {
-           msg: 'orders not available'
+          resjson = {
+            msg: 'orders not available'
           };
         } else {
           data.forEach(doc => {
-          console.log('Info of orders', doc);
-          resjson = {
-            msg: 'success', doc
-          };
-        })
-      }
+            console.log('Info of orders', doc);
+            resjson = {
+              msg: 'success',
+              doc
+            };
+          })
+        }
         mongoose.connection.close()
         cb(resjson)
       })
@@ -62,7 +63,8 @@ module.exports.vieworderbyusername = (cb, uname) => {
             data.forEach(doc => {
               console.log('Info of order', doc);
               resjson = {
-                msg: 'success', doc
+                msg: 'success',
+                doc
               };
               Profile.find({
                   userid: doc._id
@@ -115,8 +117,7 @@ module.exports.addProductid = (cb, productjson) => {
             }
             console.log(typeof doc._id)
             console.log(productjson)
-            
-            delete productjson.productid;
+
             Product.create({
               merchaneid: mongoose.Types.ObjectId(doc._id),
               ...productjson
