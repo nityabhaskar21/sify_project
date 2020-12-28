@@ -36,6 +36,9 @@ router.post('/login', cors({
   let username = req.body.username;
   let password = req.body.password;
 
+  console.log('uname', username)
+  console.log('pass', password)
+
   let userjson = {
     username,
     password
@@ -55,7 +58,7 @@ router.get('/users', cors({
   })
 });
 
-//get user prifile
+//get user profile
 router.get('/:uname/profile', cors({
   origin: "http://localhost:4200"
 }), function (req, res, next) {
