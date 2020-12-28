@@ -4,6 +4,8 @@ let Test = require('./models/testModel');
 let User = require('./models/userModel');
 let Order = require('./models/orderModel');
 let Profile = require('./models/profileModel')
+let Product = require('./models/productModel')
+
 
 const DB = "mongodb+srv://harika3003:passsify3003@cluster0.tfqsz.mongodb.net/test?retryWrites=true&w=majority"
 const options = {
@@ -95,52 +97,44 @@ module.exports.vieworderbyusername = (cb, uname) => {
 };
 
 //add orders for productid
-module.exports.addProductid = (cb, productjson) => {
+module.exports.addOrderForProductid = (cb, orderjson) => {
   mongoose.connect(DB, options, (err, client) => {
     var resjson = {}
     //  console.log('Client', client)
     if (!err) {
-      console.log("Success!")
-      Order.find({
-        "productid": productjson.productid
+      console.log("Success connecting!")
+      Product.findOne({
+        _id: orderjson.productid
       }, (err, data) => {
         if (err) {
           resjson = {
-            "msg": "Order not available"
+            "msg": "Product not available"
           }
         } else {
-          data.forEach(doc => {
-            console.log('Info of order', doc)
-            resjson = {
-              "msg": "success",
-              doc
-            }
-            console.log(typeof doc._id)
-            console.log(productjson)
-<<<<<<< HEAD
-            
-=======
 
->>>>>>> 47f73758a869add6df569d00f3a94d1f1538ff74
-            Product.create({
-              merchaneid: mongoose.Types.ObjectId(doc._id),
-              ...productjson
-            }, (qerr, qdata) => {
-              if (qerr) {
-                console.log('Error in creating product', qerr)
-                //console.log(perr)
-                resjson = {
-                  "msg": "Product failed to create "
-                }
-              } else {
-                resjson = {
-                  "msg": "Product created sucessfully",
-                  qdata
-                }
+          console.log('Info of product', data)
+          console.log('merchant id type', typeof data.merchantid)
+          let buyerid = data.buyerid
+          delete orderjson.buyerid
+          Order.create({
+            ...orderjson,
+            merchantid: mongoose.Types.ObjectId(data.merchantid),
+            buyerid: mongoose.Types.ObjectId(buyerid)
+          }, (qerr, qdata) => {
+            if (qerr) {
+              console.log('Error in creating Order', qerr)
+              resjson = {
+                "msg": "Order failed to create "
               }
-              cb(resjson)
-            })
+            } else {
+              resjson = {
+                "msg": "Order created sucessfully",
+                qdata
+              }
+            }
+            cb(resjson)
           })
+
         }
         //  mongoose.connection.close();
       })
