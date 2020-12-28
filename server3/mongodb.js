@@ -3,7 +3,8 @@ let mongoClient = require('mongodb').MongoClient;
 let Test = require('./models/testModel');
 let User = require('./models/userModel');
 let Order = require('./models/orderModel');
-let Profile = require('./models/profileModel')
+let Profile = require('./models/profileModel');
+
 
 const DB = "mongodb+srv://harika3003:passsify3003@cluster0.tfqsz.mongodb.net/test?retryWrites=true&w=majority"
 const options = {
@@ -117,11 +118,6 @@ module.exports.addProductid = (cb, productjson) => {
             }
             console.log(typeof doc._id)
             console.log(productjson)
-<<<<<<< HEAD
-            
-=======
-
->>>>>>> 47f73758a869add6df569d00f3a94d1f1538ff74
             Product.create({
               merchaneid: mongoose.Types.ObjectId(doc._id),
               ...productjson
@@ -142,7 +138,7 @@ module.exports.addProductid = (cb, productjson) => {
             })
           })
         }
-        //  mongoose.connection.close();
+      //  mongoose.connection.close();
       })
     } else console.log("ERROR!:", err.message)
   })
