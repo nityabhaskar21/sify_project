@@ -27,7 +27,8 @@ module.exports.addUser = (cb, userjson) => {
         } else {
           console.log(doc);
           resjson = {
-            msg: 'User added!'
+            msg: 'User added!',
+            doc
           };
         }
         console.log('doc', doc);
@@ -52,7 +53,8 @@ module.exports.loginUser = (cb, userjson) => {
         } else if (doc) {
           console.log(doc);
           resjson = {
-            msg: 'User logged!'
+            msg: 'User logged!',
+            doc
           };
         } else {
           var resjson = {
@@ -155,13 +157,13 @@ module.exports.addUserProfile = (cb, profilejson) => {
         (err, data) => {
           if (err) {
             resjson = {
-              msg: 'User not available'
+              error: 'User not available'
             };
           } else {
             data.forEach(doc => {
               console.log('Info of user', doc);
               resjson = {
-                msg: 'success'
+                msg: 'success in finding user'
               };
               console.log(doc._id);
               //  phone: profilejson.phone,
@@ -186,7 +188,7 @@ module.exports.addUserProfile = (cb, profilejson) => {
                     console.log('Error in creating profile', perr);
                     //console.log(perr)
                     resjson = {
-                      msg: 'Profile failed to be updated/created '
+                      error: 'Profile failed to be updated/created '
                     };
                   } else {
                     resjson = {
