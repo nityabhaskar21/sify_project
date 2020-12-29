@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var mongodao = require('../mongodb')
+var mongodao = require('../mongodb1')
 var cors = require('cors')
 
 /* Signup User. */
