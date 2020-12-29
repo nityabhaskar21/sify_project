@@ -29,15 +29,15 @@ router.get('/:uname/product', cors({
 });
 
 
-//add product 
+//add product by user
 router.options('/:username/addproduct', cors())
 router.post('/:username/addproduct', cors({
   origin: "http://localhost:4200"
 }), function (req, res, next) {
-  let username = req.params.username;
+  let username = req.body.username;
   let pname = req.body.pname;
   let category = req.body.category;
-  let merchaneid = req.body.merchaneid;
+  let merchantid = req.body.merchantid;
   let price = req.body.price;
   let description = req.body.description;
   
@@ -45,13 +45,23 @@ router.post('/:username/addproduct', cors({
     username,
     pname,
     category,
-    merchaneid,
+    merchantid,
     price,
     description
   }
   mongodao.addProduct (function (result) {
     res.send(result)
   }, productjson)
+});
+
+
+router.get('/:cat/product', cors({
+  origin: "http://localhost:4200"
+}), function (req, res, next) {
+  let category = req.params.cat;
+  mongodao.viewByCategory(function (result) {
+    res.send(result)
+  })
 });
 
 module.exports = router;

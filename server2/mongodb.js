@@ -37,7 +37,7 @@ module.exports.viewAllProduct = (cb) => {
   })
 }
 
-
+//view by user's product
 module.exports.viewByUsername = (cb, uname) => {
   mongoose.connect(DB, options, (err, client) => {
     var resjson = {}
@@ -59,7 +59,7 @@ module.exports.viewByUsername = (cb, uname) => {
               doc
             }
             Product.find({
-              merchaneid: doc._id
+              merchantid: doc._id
             }, (qerr, qdata) => {
               if (qerr) {
                 console.log('This executes')
@@ -84,7 +84,7 @@ module.exports.viewByUsername = (cb, uname) => {
   })
 }
 
-
+//add user's product
 module.exports.addProduct = (cb, productjson) => {
   mongoose.connect(DB, options, (err, client) => {
     var resjson = {}
@@ -110,7 +110,7 @@ module.exports.addProduct = (cb, productjson) => {
             
             delete productjson.username;
             Product.create({
-              merchaneid: mongoose.Types.ObjectId(doc._id),
+              merchantid: mongoose.Types.ObjectId(doc._id),
               ...productjson
             }, (qerr, qdata) => {
               if (qerr) {
@@ -134,3 +134,35 @@ module.exports.addProduct = (cb, productjson) => {
     } else console.log("ERROR!:", err.message)
   })
 }
+
+
+//view product by category
+module.exports.viewByCategory = (cb, cat) => {
+  mongoose.connect(DB, options, (err, client) => {
+    var resjson = {}
+    
+    if (!err) {
+      console.log("Success!")
+      Product.find({
+        "category": cat
+      }, (err, data) => {
+        if (err) {
+          resjson = {
+            "msg": "Product not available"
+        };
+      } else {
+        console.log('doc: ', doc);
+        resjson = {
+          msg: "View products successful",
+          doc
+        }
+      }
+      cb(resjson);
+       mongoose.connection.close();
+     
+    })
+  } else console.log('ERROR!:', err.message);
+})
+}
+
+       
