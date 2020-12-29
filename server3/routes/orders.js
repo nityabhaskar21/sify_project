@@ -31,7 +31,7 @@ router.get('/viewordersbyusername', cors({
 //add orders for productid
 router.options('/addproductid', cors())
 router.post('/addproductid', cors({
-  origin: "http://localhost:4200" 
+  origin: "http://localhost:4200"
 }), function (req, res, next) {
   let productid = req.body.productid;
   let merchantid = req.body.merchantid;
@@ -40,19 +40,19 @@ router.post('/addproductid', cors({
   let orderstatus = req.body.orderstatus;
   let iscancelled = req.body.iscancelled;
   let rating = req.body.rating;
-  
-  let productjson = {
+
+  let orderjson = {
     productid,
-    merchantid,
     buyerid,
     review,
     orderstatus,
     iscancelled,
     rating
   }
-  mongodao.addProductid (function (result) {
+  console.log('productjson: ', orderjson)
+  mongodao.addOrderForProductid(function (result) {
     res.send(result)
-  }, productjson)
+  }, orderjson)
 });
 
 module.exports = router;
