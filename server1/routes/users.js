@@ -74,14 +74,14 @@ router.post('/:username/addprofile', cors({
   origin: "http://localhost:4200"
 }), function (req, res, next) {
   let username = req.params.username;
-  let phone = req.body.phone;
+  let phone = parseInt(req.body.phone);
   let company = req.body.company || 'self';
   let address = req.body.address;
   let city = req.body.city;
-  let pin = req.body.pin;
+  let pin = parseFloat(req.body.pin);
   let country = req.body.country || 'india';
   let about = req.body.about;
-  let prs = req.body.prs;
+  let prs = req.body.prs || 'soild';
 
   let profilejson = {
     username,
