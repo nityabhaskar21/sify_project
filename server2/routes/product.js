@@ -19,19 +19,21 @@ router.get('/viewall', cors({
 });
 
 //veiw product by username
-router.get('/:uname/product', cors({
+router.get('/viewproductbymerchantid/:uid', cors({
   origin: "http://localhost:4200"
 }), function (req, res, next) {
-  let username = req.params.uname;
-  mongodao.viewByUsername(function (result) {
+  let merchantid = req.params.uid;
+  console.log(merchantid)
+  mongodao.viewproductbymerchantid(function (result) {
+   console.log(result)
     res.send(result)
-  }, username)
+  }, merchantid)
 });
 
 
 //add product by user
-router.options('/:username/addproduct', cors())
-router.post('/:username/addproduct', cors({
+router.options('/addproduct', cors({origin:'http://localhost:4200'}))
+router.post('/addproduct', cors({
   origin: "http://localhost:4200"
 }), function (req, res, next) {
   let username = req.body.username;
@@ -49,19 +51,20 @@ router.post('/:username/addproduct', cors({
     price,
     description
   }
+  console.log(productjson);
   mongodao.addProduct (function (result) {
     res.send(result)
   }, productjson)
 });
 
 
-router.get('/:cat/product', cors({
+router.get('/:cat', cors({
   origin: "http://localhost:4200"
 }), function (req, res, next) {
   let category = req.params.cat;
   mongodao.viewByCategory(function (result) {
     res.send(result)
-  })
+  },category)
 });
 
 module.exports = router;

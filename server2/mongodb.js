@@ -13,76 +13,52 @@ const options = {
 }
 
 //viewall product from product model
-module.exports.viewAllProduct = (cb) => {
-  mongoose.connect(DB, options, (err, client) => {
+//module.exports.viewAllProduct = (cb) => {
+  //mongoose.connect(DB, options, (err, client) => {
    
-    if (!err) {
-      console.log("Success!")
-      Product.find((err, doc) => {
-        if (err) {
-          var resjson = {
-            "error": err.errors || 'product not available'
-          }
-        } else {
-          console.log('doc: ', doc)
-          resjson = {
-            ...doc
-          }
-        }
-        mongoose.connection.close()
-        cb(resjson)
-      })
+    //if (!err) {
+      //console.log("Success!")
+      //Product.find((err, doc) => {
+        //if (err) {
+          //var resjson = {
+            //"error": err.errors || 'product not available'
+         // }
+        //} else {
+          //console.log('doc: ', doc)
+          //resjson = {
+            //...doc
+          //}
+        //}
+        //mongoose.connection.close()
+        //cb(resjson)
+      //})
 
-    } else console.log("ERROR!:", err.message)
-  })
-}
+    //} else console.log("ERROR!:", err.message)
+  //})
+//}
 
 //view by user's product
-module.exports.viewByUsername = (cb, uname) => {
+module.exports.viewproductbymerchantid = (cb, uid) => {
   mongoose.connect(DB, options, (err, client) => {
-    var resjson = {}
-    
+    var resjson = {};
+    //  console.log('Client', client)
     if (!err) {
-      console.log("Success!")
-      User.find({
-        "username": uname
-      }, (err, data) => {
-        if (err) {
-          resjson = {
-            "msg": "User not available"
-          }
-        } else {
-          data.forEach(doc => {
-            console.log('Info of user', doc)
+      console.log('Success!');
+      Product.find({
+          merchantid: uid
+        },
+        (err, data) => {
+          if (err) {
             resjson = {
-              "msg": "success",
-              doc
-            }
-            Product.find({
-              merchantid: doc._id
-            }, (qerr, qdata) => {
-              if (qerr) {
-                console.log('This executes')
-                resjson = {
-                  ...resjson,
-                  "qdata": "No user product available"
-                }
-                console.log('new resjson: ', resjson)
-              } else {
-                qdata.forEach(d => {
-                  console.log('User Product: ', d);
-                  resjson.qdata = d
-                })
-              }
-              cb(resjson)
-            })
-          })
-        }
-        mongoose.connection.close();
-      })
-    } else console.log("ERROR!:", err.message)
-  })
-}
+              msg: 'User not available'
+            };
+          } else {
+            console.log(data)
+            cb(data)
+                }});
+              } else console.log('ERROR!:', err.message);
+            });
+        };
 
 //add user's product
 module.exports.addProduct = (cb, productjson) => {
@@ -143,7 +119,7 @@ module.exports.viewByCategory = (cb, cat) => {
     
     if (!err) {
       console.log("Success!")
-      Product.find({
+      Products.find({
         "category": cat
       }, (err, data) => {
         if (err) {
