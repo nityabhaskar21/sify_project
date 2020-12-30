@@ -6,7 +6,7 @@ let Product = require('./models/productModel')
 let Profile = require('./models/profileModel')
 let Order = require('./models/orderModel')
 
-const DB = "mongodb+srv://harika3003:passsify3003@cluster0.tfqsz.mongodb.net/test?retryWrites=true&w=majority"
+const DB = "mongodb+srv://user3003:passsify3003@cluster0.tfqsz.mongodb.net/test?retryWrites=true&w=majority"
 const options = {
   useNewUrlParser: true,
   useCreateIndex: true,

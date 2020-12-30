@@ -5,7 +5,7 @@ let Product = require('./models/productModel')
 let Profile = require('./models/profileModel')
 let Order = require('./models/orderModel')
 
-const DB = "mongodb+srv://satya3003:passsify3003@cluster0.tfqsz.mongodb.net/test?retryWrites=true&w=majority"
+const DB = "mongodb+srv://user3003:passsify3003@cluster0.tfqsz.mongodb.net/test?retryWrites=true&w=majority"
 const options = {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -135,10 +135,9 @@ module.exports.addProduct = (cb, productjson) => {
 
 
 //view product by category
-module.exports.viewByCategory = (cb, cat) => {
+module.exports.viewProductByCategory = (cb, cat) => {
   mongoose.connect(DB, options, (err, client) => {
     var resjson = {}
-
     if (!err) {
       console.log("Success!")
       Product.find({
@@ -149,10 +148,11 @@ module.exports.viewByCategory = (cb, cat) => {
             "msg": "Product not available"
           };
         } else {
-          console.log('doc: ', doc);
+          console.log('doc: ', data);
+
           resjson = {
             msg: "View products successful",
-            doc
+            data
           }
         }
         cb(resjson);

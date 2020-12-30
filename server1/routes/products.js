@@ -20,7 +20,7 @@ router.get('/viewcat/:category', cors({
   let category = req.params.category;
   mongodao.viewProductByCategory(function (result) {
     res.send(result)
-  })
+  }, category)
 });
 
 
