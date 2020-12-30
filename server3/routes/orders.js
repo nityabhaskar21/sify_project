@@ -19,13 +19,15 @@ router.get('/viewordersbyrating', cors({
 });
 
 //get orders by username
-router.get('/viewordersbyusername', cors({
+router.get('/viewordersbybuyerid/:customerid', cors({
   origin: "http://localhost:4200"
 }), function (req, res, next) {
-  let username = req.params.uname;
-  mongodao.vieworderbyusername(function (result) {
+  let buyerid = req.params.customerid;
+  console.log(buyerid)
+  mongodao.vieworderbybuyerid(function (result) {
+   console.log(result)
     res.send(result)
-  }, username)
+  }, buyerid)
 });
 
 //add orders for productid
