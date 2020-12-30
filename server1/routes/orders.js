@@ -37,28 +37,25 @@ router.get('/:username/viewordersbyusername', cors({
 //i.e. purchase product 
 //first e have to find the merchant of the product
 //then add merchantid, productid and buyerid to orders collection 
-router.options('/:buyerusername/addorderforproduct', cors())
-router.post('/:buyerusername/addorderforproduct', cors({
+router.options('/addproductid', cors())
+router.post('/addproductid', cors({
   origin: "http://localhost:4200"
-}), async function (req, res, next) {
-  let buyerusername = req.params.buyerusername;
+}), function (req, res, next) {
   let productid = req.body.productid;
-  let review = req.body.review;
+  let merchantid = req.body.merchantid;
+  let buyerid = req.body.buyerid;
+  let review = req.body.review || 'Not reviewed';
   let orderstatus = req.body.orderstatus;
   let iscancelled = req.body.iscancelled;
-  let rating = req.body.rating;
-
-  let buyerid = await utilitya.getbuyerid(buyerusername);
-  console.log('buyerid: ', buyerid)
+  let rating = req.body.rating || 7;
 
   let orderjson = {
     productid,
+    buyerid,
     review,
     orderstatus,
     iscancelled,
-    rating,
-    buyerid,
-    buyerusername
+    rating
   }
   console.log('productjson: ', orderjson)
   mongodao.addOrderForProductid(function (result) {

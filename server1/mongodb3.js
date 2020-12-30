@@ -120,32 +120,27 @@ module.exports.addOrderForProductid = (cb, orderjson) => {
           if (data) {
             console.log('Info of product', data)
             console.log('Orderjson: ', orderjson)
-            User.findOne({
-              username: orderjson.buyerusername
-            }, (err, doc) => {
-              let buyerid = doc._id;
-              delete orderjson.buyerusername;
-              Order.create({
-                ...orderjson,
-                buyerid: buyerid,
-                merchantid: mongoose.Types.ObjectId(data.merchantid),
 
-              }, (qerr, qdata) => {
-                if (qerr) {
-                  console.log('Error in creating Order', qerr)
-                  resjson = {
-                    "msg": "Order failed to create "
-                  }
-                } else {
-                  console.log('qdata', qdata)
-                  resjson = {
-                    "msg": "Order created sucessfully",
-                    "qdata": qdata
-                  }
-                  console.log('resjson ', resjson)
+            Order.create({
+              ...orderjson,
+              merchantid: mongoose.Types.ObjectId(data.merchantid),
+
+            }, (qerr, qdata) => {
+              if (qerr) {
+                console.log('Error in creating Order', qerr)
+                resjson = {
+                  "msg": "Order failed to create "
                 }
-              })
+              } else {
+                console.log('qdata', qdata)
+                resjson = {
+                  "msg": "Order created sucessfully",
+                  "qdata": qdata
+                }
+                console.log('resjson ', resjson)
+              }
             })
+
           } else {
             resjson = {
               "error": "Order already exists for the product"
