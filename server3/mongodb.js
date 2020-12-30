@@ -47,14 +47,14 @@ module.exports.viewOrderbyrating = (cb) => {
 };
 
 //view orders by username
-module.exports.vieworderbyusername = (cb, uname) => {
+module.exports.vieworderbybuyerid = (cb, customerid) => {
   mongoose.connect(DB, options, (err, client) => {
     var resjson = {};
     //  console.log('Client', client)
     if (!err) {
       console.log('Success!');
       Order.find({
-          username: uname
+          buyerid: customerid
         },
         (err, data) => {
           if (err) {
@@ -62,39 +62,13 @@ module.exports.vieworderbyusername = (cb, uname) => {
               msg: 'User not available'
             };
           } else {
-            data.forEach(doc => {
-              console.log('Info of order', doc);
-              resjson = {
-                msg: 'success',
-                doc
-              };
-              Profile.find({
-                  userid: doc._id
-                },
-                (perr, pdata) => {
-                  if (perr) {
-                    console.log('error occured', perr);
-                    resjson = {
-                      ...resjson,
-                      pdata: 'No user profile available'
-                    };
-                    console.log('new resjson: ', resjson);
-                  } else {
-                    pdata.forEach(d => {
-                      console.log('User Profile: ', d);
-                      resjson.pdata = d;
-                    });
-                  }
-                  cb(resjson);
-                }
-              );
+            console.log(data)
+            cb(data)
+                }});
+              } else console.log('ERROR!:', err.message);
             });
-          }
-        }
-      );
-    } else console.log('ERROR!:', err.message);
-  });
-};
+        };
+      
 
 //add orders for productid
 module.exports.addOrderForProductid = (cb, orderjson) => {
