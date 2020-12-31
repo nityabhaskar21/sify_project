@@ -22,15 +22,25 @@ router.get('/viewordersbyrating', cors({
 //i.e. purchased products of an user
 //first we have to find id of the username and search the orders table
 //for the buyerid match
-router.get('/:username/viewordersbyusername', cors({
+router.get('/viewordersbybuyerid/:uid', cors({
   origin: "http://localhost:4200"
 }), function (req, res, next) {
-  let username = req.params.uname;
-  mongodao.vieworderbyusername(function (result) {
+  let uid = req.params.uid;
+  mongodao.vieworderbybuyerid(function (result) {
     res.send(result)
-  }, username)
+  }, uid)
 });
 
+
+//get order details
+router.get('/vieworderdetails/:pid', cors({
+  origin: "http://localhost:4200"
+}), function (req, res, next) {
+  let pid = req.params.pid;
+  mongodao.vieworderdetails(function (result) {
+    res.send(result)
+  }, pid)
+});
 
 //add orders for productid
 //every product has a merchant associated 

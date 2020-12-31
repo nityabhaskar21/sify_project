@@ -46,54 +46,30 @@ module.exports.viewOrderbyrating = (cb) => {
 };
 
 //view orders by username
-module.exports.vieworderbyusername = (cb, uname) => {
+module.exports.vieworderbybuyerid = (cb, uid) => {
   mongoose.connect(DB, options, (err, client) => {
-    var resjson = {};
-    //  console.log('Client', client)
+    let resjson = {};
     if (!err) {
-      console.log('Success!');
       Order.find({
-          username: uname
+          buyerid: uid
         },
         (err, data) => {
           if (err) {
             resjson = {
-              msg: 'User not available'
+              error: 'Order not available'
             };
           } else {
-            data.forEach(doc => {
-              console.log('Info of order', doc);
-              resjson = {
-                msg: 'success',
-                doc
-              };
-              Profile.find({
-                  userid: doc._id
-                },
-                (perr, pdata) => {
-                  if (perr) {
-                    console.log('error occured', perr);
-                    resjson = {
-                      ...resjson,
-                      pdata: 'No user profile available'
-                    };
-                    console.log('new resjson: ', resjson);
-                  } else {
-                    pdata.forEach(d => {
-                      console.log('User Profile: ', d);
-                      resjson.pdata = d;
-                    });
-                  }
-                  cb(resjson);
-                }
-              );
-            });
+            console.log('Info of orders', data);
+            resjson.msg = 'Successfull!';
+            resjson.odata = data;
           }
+          cb(resjson)
         }
       );
     } else console.log('ERROR!:', err.message);
   });
 };
+
 
 //add orders for productid
 module.exports.addOrderForProductid = (cb, orderjson) => {
@@ -197,6 +173,32 @@ module.exports.addOrderForProductid2 = (cb, orderjson) => {
         // cb(resjson)
       })
 
+
+    }
+  })
+};
+
+
+
+//orderdetails
+
+module.exports.vieworderdetails = (cb, productid) => {
+
+  mongoose.connect(DB, options, (err, client) => {
+    let resjson = {}
+    if (err) {
+      console.log('Error connecting', err.message)
+    } else {
+      Product.findOne({
+        _id: productid
+      }, (err, doc1) => {
+        console.log(productid)
+        console.log('Doc1 ', doc1)
+        resjson = {
+          doc1
+        }
+        cb(resjson)
+      })
 
     }
   })
