@@ -57,8 +57,33 @@ router.post('/addproductid', cors({
     iscancelled,
     rating
   }
-  console.log('productjson: ', orderjson)
+  console.log('orderjson: ', orderjson)
   mongodao.addOrderForProductid(function (result) {
+    res.send(result)
+  }, orderjson)
+});
+
+router.options('/addproductid2', cors())
+router.post('/addproductid2', cors({
+  origin: "http://localhost:4200"
+}), function (req, res, next) {
+  let productid = req.body.productid;
+  let buyerid = req.body.buyerid;
+  let review = req.body.review || 'Not reviewed';
+  let orderstatus = req.body.orderstatus;
+  let iscancelled = req.body.iscancelled;
+  let rating = req.body.rating || 7;
+
+  let orderjson = {
+    productid,
+    buyerid,
+    review,
+    orderstatus,
+    iscancelled,
+    rating
+  }
+  console.log('orderjson: ', orderjson)
+  mongodao.addOrderForProductid2(function (result) {
     res.send(result)
   }, orderjson)
 });

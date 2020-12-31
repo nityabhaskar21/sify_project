@@ -155,3 +155,49 @@ module.exports.addOrderForProductid = (cb, orderjson) => {
   })
 
 };
+
+module.exports.addOrderForProductid2 = (cb, orderjson) => {
+
+  mongoose.connect(DB, options, (err, client) => {
+    let resjson = {}
+    if (err) {
+      console.log('Error connecting', err.message)
+    } else {
+      Product.findOne({
+        _id: orderjson.productid
+      }, (err, doc1) => {
+        console.log('doc1: ', doc1);
+        if (doc1.ispurchased == false || !doc1.ispurchased) {
+          Order.create({
+            ...orderjson,
+            merchantid: doc1.merchantid
+          }, (err, doc2) => {
+            console.log('doc2 ', doc2)
+          })
+          Product.findOneAndUpdate({
+            _id: orderjson.productid
+          }, {
+            ispurchased: true
+          }, {
+            new: true
+          }, (err, doc3) => {
+            console.log('doc3 ', doc3)
+            resjson = {
+              "msg": "Item added to cart!"
+            }
+            cb(resjson)
+          })
+        } else {
+          resjson = {
+            "error": "Item already sold!" //if doc1.ispurchased == true
+          }
+          cb(resjson)
+        }
+        console.log('resjson ', resjson)
+        // cb(resjson)
+      })
+
+
+    }
+  })
+};

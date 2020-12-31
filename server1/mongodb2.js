@@ -39,6 +39,28 @@ module.exports.viewAllProduct = (cb) => {
 }
 
 //view by user's product
+// module.exports.viewproductbymerchantid = (cb, uid) => {
+//   mongoose.connect(DB, options, (err, client) => {
+//     var resjson = {};
+//     //  console.log('Client', client)
+//     if (!err) {
+//       console.log('Success!');
+//       Product.find({
+//           merchantid: uid
+//         },
+//         (err, data) => {
+//           if (err) {
+//             resjson = {
+//               msg: 'User not available'
+//             };
+//           } else {
+//             console.log(data)
+//             cb(data)
+//                 }});
+//               } else console.log('ERROR!:', err.message);
+//             });
+//         };
+
 module.exports.viewproductbymerchantid = (cb, uid) => {
   mongoose.connect(DB, options, (err, client) => {
     var resjson = {};
@@ -56,12 +78,14 @@ module.exports.viewproductbymerchantid = (cb, uid) => {
           } else {
             console.log(data)
             cb(data)
-                }});
-              } else console.log('ERROR!:', err.message);
-            });
-        };
+          }
+        });
+    } else console.log('ERROR!:', err.message);
+  });
+};
 
-        
+
+
 //add user's product
 module.exports.addProduct = (cb, productjson) => {
   mongoose.connect(DB, options, (err, client) => {
@@ -139,4 +163,3 @@ module.exports.viewProductByCategory = (cb, cat) => {
     } else console.log('ERROR!:', err.message);
   })
 }
-
