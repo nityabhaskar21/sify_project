@@ -38,29 +38,8 @@ module.exports.viewAllProduct = (cb) => {
   })
 }
 
-//view by user's product
-// module.exports.viewproductbymerchantid = (cb, uid) => {
-//   mongoose.connect(DB, options, (err, client) => {
-//     var resjson = {};
-//     //  console.log('Client', client)
-//     if (!err) {
-//       console.log('Success!');
-//       Product.find({
-//           merchantid: uid
-//         },
-//         (err, data) => {
-//           if (err) {
-//             resjson = {
-//               msg: 'User not available'
-//             };
-//           } else {
-//             console.log(data)
-//             cb(data)
-//                 }});
-//               } else console.log('ERROR!:', err.message);
-//             });
-//         };
 
+//view products by merchantid
 module.exports.viewproductbymerchantid = (cb, uid) => {
   mongoose.connect(DB, options, (err, client) => {
     var resjson = {};

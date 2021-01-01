@@ -42,6 +42,16 @@ router.get('/vieworderdetails/:pid', cors({
   }, pid)
 });
 
+//order details by oid
+router.get('/vieworderdetailsbyoid/:oid', cors({
+  origin: "http://localhost:4200"
+}), function (req, res, next) {
+  let oid = req.params.oid;
+  mongodao.vieworderdetailsbyoid(function (result) {
+    res.send(result)
+  }, oid)
+});
+
 //add orders for productid
 //every product has a merchant associated 
 //i.e. purchase product 
@@ -126,18 +136,22 @@ router.post('/:buyerusername/addreview', cors({
   }, orderjson)
 });
 
+router.options('/editreview', cors())
+router.post('/editreview', cors({
+  origin: "http://localhost:4200"
+}), function (req, res, next) {
+  let orderid = req.body.orderid;
+  let review = req.body.review;
+  let rating = req.body.rating;
 
-
-
-
-
-
-
-
-
-
-
-
-
+  let orderjson = {
+    review,
+    rating
+  }
+  console.log('orderjson: ', orderjson)
+  mongodao.editreview(function (result) {
+    res.send(result)
+  }, orderjson, orderid)
+});
 
 module.exports = router;

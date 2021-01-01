@@ -27,16 +27,6 @@ router.get('/viewcat/:category', cors({
 //view product by merchant username
 //i.e. show the products sold by a merchant
 
-// router.get('/viewproductbymerchantid/:uid', cors({
-//   origin: "http://localhost:4200"
-// }), function (req, res, next) {
-//   let merchantid = req.params.uid;
-//   console.log(merchantid)
-//   mongodao.viewproductbymerchantid(function (result) {
-//    console.log(result)
-//     res.send(result)
-//   },merchantid)
-// });
 router.get('/viewproductbymerchantid/:uid', cors({
   origin: "http://localhost:4200"
 }), function (req, res, next) {

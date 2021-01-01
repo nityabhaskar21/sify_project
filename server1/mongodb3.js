@@ -203,3 +203,60 @@ module.exports.vieworderdetails = (cb, productid) => {
     }
   })
 };
+
+module.exports.vieworderdetailsbyoid = (cb, orderid) => {
+
+  mongoose.connect(DB, options, (err, client) => {
+    let resjson = {}
+    if (err) {
+      console.log('Error connecting', err.message)
+    } else {
+      Order.findOne({
+        _id: orderid
+      }, (err, doc1) => {
+        console.log('orderid:', orderid)
+        console.log('Doc1 ', doc1)
+        resjson = {
+          doc1
+        }
+        cb(resjson)
+      })
+
+    }
+  })
+};
+
+module.exports.editreview = (cb, orderjson, orderid) => {
+
+  mongoose.connect(DB, options, (err, client) => {
+    let resjson = {}
+    if (err) {
+      console.log('Error connecting', err.message)
+    } else {
+      Order.findOneAndUpdate({
+        _id: orderid
+      }, {
+        rating: orderjson.rating,
+        review: orderjson.review
+      }, {
+        new: true
+      }, (err, doc) => {
+        if (err) {
+          console.log('Error in creating profile', perr);
+          //console.log(perr)
+          resjson = {
+            error: 'Order failed to be updated/created '
+          };
+        } else {
+          resjson = {
+            msg: 'Order updated sucessfully',
+            doc
+          };
+          console.log('doc : ', doc)
+        }
+        cb(resjson);
+      })
+
+    }
+  })
+};
